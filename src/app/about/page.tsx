@@ -21,7 +21,7 @@ export default function AboutPage() {
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="relative aspect-[4/5] rounded-3xl overflow-hidden" style={{ boxShadow: 'var(--shadow-warm-lg)' }}>
-            <Image src="/hero.png" alt="The Peddle'n Pebbles shop" fill className="object-cover" />
+            <Image src="/hero-opt.jpg" alt="The Peddle'n Pebbles shop" fill className="object-cover" />
           </div>
           <div>
             <p className="font-accent text-xl mb-2" style={{ color: 'var(--amber-warm)' }}>How it all began</p>
