@@ -179,7 +179,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-14 reveal-on-scroll">
+          <div className="reveal-on-scroll" style={{ marginTop: '2.5rem' }}>
             <Link href="/shop" className="btn-stone text-base px-10">
               View All Treasures <ArrowRight className="w-4 h-4" />
             </Link>
@@ -237,7 +237,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6 mt-16 md:mt-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6" style={{ marginTop: '4rem' }}>
             {[
               { icon: Sparkles, title: 'Hand-Selected', desc: 'Every stone personally chosen', color: '#7b5ea7' },
               { icon: Heart, title: 'With Love', desc: 'Curated with care from our family', color: '#c77b8b' },
