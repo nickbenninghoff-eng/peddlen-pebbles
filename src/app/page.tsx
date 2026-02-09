@@ -97,7 +97,7 @@ export default function Home() {
 
         {/* "Welcome to" positioned above the shop sign */}
         <div className="absolute left-0 right-0 z-10 px-6 stagger-in"
-          style={{ textAlign: 'center', top: '15%', animationDelay: '0.2s' }}>
+          style={{ textAlign: 'center', top: '12%', animationDelay: '0.2s' }}>
           <p className="font-accent text-2xl md:text-3xl lg:text-4xl"
             style={{ color: 'var(--amber-glow)', textShadow: '0 2px 20px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.3)' }}>
             Welcome to
@@ -122,7 +122,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════
           EXPLORE OUR COLLECTION
           ═══════════════════════════════════════════════ */}
-      <section className="pt-24 md:pt-32 pb-56 md:pb-72 px-6 relative overflow-hidden" style={{ textAlign: 'center' }}>
+      <section className="pt-16 md:pt-32 pb-40 md:pb-72 px-6 relative overflow-hidden" style={{ textAlign: 'center' }}>
         <div className="absolute inset-0 pointer-events-none" style={{
           background: 'radial-gradient(ellipse at 50% 0%, rgba(196,136,58,0.04) 0%, transparent 50%)',
         }} />
@@ -160,7 +160,6 @@ export default function Home() {
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{ background: 'radial-gradient(ellipse at 50% 60%, rgba(196,136,58,0.12) 0%, transparent 70%)' }} />
                   <div className="absolute inset-0 flex flex-col items-center justify-end p-5 md:p-6" style={{ textAlign: 'center' }}>
-                    <span className="text-3xl mb-2 transition-transform duration-500 group-hover:scale-110">{cat.emoji}</span>
                     <h3 className="text-base md:text-lg mb-1"
                       style={{ fontFamily: 'var(--font-heading)', color: 'var(--cream)', textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
                       {cat.name}
@@ -184,7 +183,7 @@ export default function Home() {
               View All Treasures <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div style={{ height: '80px' }} />
+          <div className="h-10 md:h-20" />
         </div>
 
         <WaveDivider fill="var(--cream-dark)" variant={2} />
@@ -194,7 +193,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════
           OUR STORY
           ═══════════════════════════════════════════════ */}
-      <section className="pt-28 md:pt-36 pb-64 md:pb-80 px-6 section-parchment relative overflow-hidden" style={{ textAlign: 'center', borderTop: 'none', borderBottom: 'none' }}>
+      <section className="pt-20 md:pt-36 pb-48 md:pb-80 px-6 section-parchment relative overflow-hidden" style={{ textAlign: 'center', borderTop: 'none', borderBottom: 'none' }}>
         <div style={{ maxWidth: '1024px', margin: '0 auto', position: 'relative' }}>
           <div className="mb-12 md:mb-16 reveal-on-scroll">
             <p className="font-accent text-2xl md:text-3xl mb-3" style={{ color: 'var(--amber-warm)' }}>
@@ -246,17 +245,17 @@ export default function Home() {
             ].map((item, i) => (
               <div key={i} className="value-card reveal-on-scroll" style={{ textAlign: 'center', transitionDelay: `${(i * 0.08) + 0.1}s` }}>
                 <div className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center transition-transform duration-500 hover:scale-110"
-                  style={{ background: `${item.color}12`, border: `1px solid ${item.color}20`, margin: '0 auto' }}>
+                  style={{ background: `${item.color}25`, border: `1px solid ${item.color}40`, margin: '0 auto' }}>
                   <item.icon className="w-5 h-5" style={{ color: item.color }} />
                 </div>
                 <h4 className="text-sm mb-2" style={{ fontFamily: 'var(--font-heading)', color: 'var(--earth-dark)' }}>
                   {item.title}
                 </h4>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--earth-light)' }}>{item.desc}</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--earth-medium)' }}>{item.desc}</p>
               </div>
             ))}
           </div>
-          <div style={{ height: '80px' }} />
+          <div className="h-10 md:h-20" />
         </div>
 
         <WaveDivider fill="var(--cream)" variant={3} />
@@ -287,7 +286,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════
           TESTIMONIALS
           ═══════════════════════════════════════════════ */}
-      <section className="pt-28 md:pt-32 pb-60 md:pb-76 px-6 relative overflow-hidden" style={{ textAlign: 'center' }}>
+      <section className="pt-20 md:pt-32 pb-44 md:pb-76 px-6 relative overflow-hidden" style={{ textAlign: 'center' }}>
         <div className="absolute inset-0 pointer-events-none" style={{
           background: 'radial-gradient(ellipse at 50% 50%, rgba(196,136,58,0.03) 0%, transparent 60%)',
         }} />
@@ -323,7 +322,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div style={{ height: '80px' }} />
+          <div className="h-10 md:h-20" />
         </div>
 
         <WaveDivider fill="#1e120a" variant={2} />
