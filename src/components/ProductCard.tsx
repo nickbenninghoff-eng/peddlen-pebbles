@@ -1,12 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import type { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
+  const [imgError, setImgError] = useState(false);
 
   const categoryEmoji: Record<string, string> = {
     crystals: '💎',
@@ -26,26 +29,44 @@ export default function ProductCard({ product }: { product: Product }) {
     'mystery-boxes': 'linear-gradient(135deg, #5b8fb9 0%, #7ba0c0 40%, #6090b0 100%)',
   };
 
+  const hasImage = product.image && !imgError;
+
   return (
     <div className="card-parchment group relative">
       {/* Image */}
       <Link href={`/shop/${product.id}`}>
-        <div className="aspect-[4/3] relative overflow-hidden flex items-center justify-center"
+        <div className="aspect-[4/3] relative overflow-hidden product-card-image"
           style={{ background: categoryGradients[product.category] || categoryGradients.crystals }}>
-          {/* Crystal shimmer effect */}
-          <div className="absolute inset-0" style={{
-            background: `
-              radial-gradient(circle at 25% 25%, rgba(255,255,255,0.2) 0%, transparent 40%),
-              radial-gradient(circle at 75% 75%, rgba(0,0,0,0.15) 0%, transparent 40%)
-            `,
-          }} />
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          {hasImage ? (
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <>
+              {/* Crystal shimmer fallback */}
+              <div className="absolute inset-0" style={{
+                background: `
+                  radial-gradient(circle at 25% 25%, rgba(255,255,255,0.2) 0%, transparent 40%),
+                  radial-gradient(circle at 75% 75%, rgba(0,0,0,0.15) 0%, transparent 40%)
+                `,
+              }} />
+              <div className="flex items-center justify-center w-full h-full">
+                <span className="text-5xl relative z-10 transition-all duration-500 group-hover:scale-125 group-hover:rotate-6 drop-shadow-lg">
+                  {categoryEmoji[product.category] || '💎'}
+                </span>
+              </div>
+            </>
+          )}
+          {/* Warm overlay on hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-[2]"
             style={{
-              background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 60%)',
+              background: 'radial-gradient(circle at 50% 50%, rgba(196,136,58,0.08) 0%, transparent 60%)',
             }} />
-          <span className="text-5xl relative z-10 transition-all duration-500 group-hover:scale-125 group-hover:rotate-6 drop-shadow-lg">
-            {categoryEmoji[product.category] || '💎'}
-          </span>
           {product.featured && (
             <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full text-white z-10"
               style={{
@@ -56,7 +77,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 textTransform: 'uppercase',
                 boxShadow: '0 2px 8px rgba(196,136,58,0.4)',
               }}>
-              ⭐ Featured
+              Featured
             </div>
           )}
         </div>

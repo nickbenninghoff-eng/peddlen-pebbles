@@ -3,9 +3,22 @@ import { Gem } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer style={{ background: 'var(--earth-dark)', color: 'var(--cream)' }}>
+    <footer className="relative overflow-hidden" style={{ background: 'var(--earth-dark)', color: 'var(--cream)' }}>
+      {/* Subtle warm glow from top */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--amber-warm), transparent)', opacity: 0.3 }} />
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: `
+          radial-gradient(ellipse at 15% 20%, rgba(74,124,75,0.06) 0%, transparent 40%),
+          radial-gradient(ellipse at 85% 80%, rgba(196,136,58,0.05) 0%, transparent 40%)
+        `,
+      }} />
+      {/* Scattered gem accents */}
+      <div className="deco-gem deco-gem--sm deco-gem--purple" style={{ top: '15%', right: '20%' }} />
+      <div className="deco-gem deco-gem--sm deco-gem--amber" style={{ bottom: '30%', left: '25%' }} />
+      <div className="deco-gem deco-gem--sm deco-gem--rose" style={{ top: '50%', right: '10%' }} />
+
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12 relative">
         {/* Brand */}
         <div className="md:col-span-1">
           <div className="flex items-center gap-3 mb-4">
@@ -82,13 +95,14 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t" style={{ borderColor: 'rgba(250,245,238,0.1)' }}>
-        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
+      <div className="border-t relative" style={{ borderColor: 'rgba(250,245,238,0.08)' }}>
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(196,136,58,0.15), transparent)' }} />
+        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-2">
           <p className="text-xs opacity-40">
             © 2026 Peddle&apos;n Pebbles. All rights reserved.
           </p>
-          <p className="text-xs opacity-40 font-accent text-lg">
-            Made with 💎 and a little bit of magic
+          <p className="text-sm opacity-40 font-accent">
+            Made with love and a little bit of earth magic
           </p>
         </div>
       </div>

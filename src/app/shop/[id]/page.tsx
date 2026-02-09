@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ShoppingBag, Star, Truck, Shield, RotateCcw } from 'lucide-react';
 import { products } from '@/data/products';
@@ -10,6 +12,7 @@ import ProductCard from '@/components/ProductCard';
 export default function ProductDetailPage() {
   const params = useParams();
   const { addItem } = useCart();
+  const [imgError, setImgError] = useState(false);
   const product = products.find(p => p.id === params.id);
 
   if (!product) {
@@ -35,20 +38,39 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen">
       {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        <Link href="/shop" className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70"
+      <div className="max-w-7xl mx-auto px-6 py-6 relative" style={{ background: 'var(--cream)' }}>
+        <Link href="/shop" className="inline-flex items-center gap-2 text-sm transition-all duration-300 hover:gap-3"
           style={{ color: 'var(--earth-light)', fontFamily: 'var(--font-heading)' }}>
           <ArrowLeft className="w-4 h-4" /> Back to Shop
         </Link>
       </div>
 
       {/* Product */}
-      <div className="max-w-7xl mx-auto px-6 pb-20">
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Image */}
-          <div className="aspect-square rounded-3xl product-image-placeholder overflow-hidden"
-            style={{ boxShadow: 'var(--shadow-warm-lg)' }}>
-            <span className="text-8xl">{categoryEmoji[product.category] || '💎'}</span>
+      <div className="max-w-7xl mx-auto px-6 pb-20 relative">
+        {/* Subtle ambient gem dots */}
+        <div className="deco-gem deco-gem--sm deco-gem--purple" style={{ top: '5%', right: '3%' }} />
+        <div className="deco-gem deco-gem--md deco-gem--amber" style={{ top: '40%', right: '0%' }} />
+        <div className="deco-gem deco-gem--sm deco-gem--blue" style={{ bottom: '15%', left: '2%' }} />
+
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
+          {/* Image — hobbit round door frame */}
+          <div className="aspect-square round-door-frame relative"
+            style={{ boxShadow: 'var(--shadow-warm-xl)' }}>
+            {product.image && !imgError ? (
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                onError={() => setImgError(true)}
+                priority
+              />
+            ) : (
+              <div className="w-full h-full product-image-placeholder flex items-center justify-center">
+                <span className="text-8xl md:text-9xl drop-shadow-lg relative z-[3]">{categoryEmoji[product.category] || '💎'}</span>
+              </div>
+            )}
           </div>
 
           {/* Details */}
@@ -127,8 +149,10 @@ export default function ProductDetailPage() {
 
         {/* Related Products */}
         {related.length > 0 && (
-          <div className="mt-20">
-            <h2 className="text-2xl mb-8 text-center">You Might Also Love</h2>
+          <div className="mt-20 pt-16" style={{ borderTop: '1px solid var(--stone-light)' }}>
+            <p className="font-accent text-xl mb-2 text-center" style={{ color: 'var(--amber-warm)' }}>More treasures</p>
+            <h2 className="text-2xl md:text-3xl mb-2 text-center">You Might Also Love</h2>
+            <div className="section-ornament mb-8"><span className="text-sm" style={{ color: 'var(--amber-warm)' }}>✦</span></div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {related.map(p => <ProductCard key={p.id} product={p} />)}
             </div>

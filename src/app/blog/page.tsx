@@ -1,15 +1,38 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
 import { blogPosts } from '@/data/blog-posts';
 
+function BlogImage({ src, fallback }: { src: string; fallback: string }) {
+  const [error, setError] = useState(false);
+  if (error || !src) {
+    return (
+      <div className="w-full h-full product-image-placeholder flex items-center justify-center text-4xl">
+        {fallback}
+      </div>
+    );
+  }
+  return <Image src={src} alt="" fill className="object-cover" onError={() => setError(true)} sizes="(max-width: 768px) 100vw, 288px" />;
+}
+
 export default function BlogPage() {
+  const blogEmojis = ['🌙', '💎', '🔮', '✨'];
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="py-16 px-6 text-center" style={{ background: 'var(--cream-dark)' }}>
-        <p className="font-accent text-xl mb-2" style={{ color: 'var(--amber-warm)' }}>Crystal wisdom</p>
-        <h1 className="text-4xl md:text-5xl mb-4">The Blog</h1>
-        <p style={{ color: 'var(--earth-light)' }}>Guides, tips, and stories from the world of crystals and minerals</p>
+      <section className="py-20 md:py-24 px-6 text-center section-parchment page-hero-arch relative overflow-hidden">
+        <div className="deco-gem deco-gem--md deco-gem--purple" style={{ top: '22%', right: '15%' }} />
+        <div className="deco-gem deco-gem--sm deco-gem--amber" style={{ bottom: '28%', left: '12%' }} />
+        <div className="deco-gem deco-gem--sm deco-gem--blue" style={{ top: '45%', left: '6%' }} />
+        <div className="absolute top-10 right-[10%] text-lg opacity-[0.05] animate-leaf">🌿</div>
+
+        <p className="font-accent text-2xl mb-3 stagger-in" style={{ color: 'var(--amber-warm)', animationDelay: '0.1s' }}>Crystal wisdom</p>
+        <h1 className="text-4xl md:text-6xl mb-4 stagger-in" style={{ animationDelay: '0.2s' }}>The Blog</h1>
+        <div className="section-ornament"><span className="text-sm" style={{ color: 'var(--amber-warm)' }}>✦</span></div>
+        <p className="text-lg stagger-in" style={{ color: 'var(--earth-light)', animationDelay: '0.4s' }}>Guides, tips, and stories from the world of crystals and minerals</p>
       </section>
 
       <div className="max-w-4xl mx-auto px-6 py-16">
@@ -18,9 +41,9 @@ export default function BlogPage() {
             <Link key={post.slug} href={`/blog/${post.slug}`}
               className={`block card-parchment group ${i === 0 ? '' : ''}`}>
               <div className="flex flex-col md:flex-row">
-                {/* Image placeholder */}
-                <div className="md:w-72 h-48 md:h-auto product-image-placeholder flex-shrink-0 flex items-center justify-center text-4xl rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none">
-                  {i === 0 ? '🌙' : i === 1 ? '💎' : i === 2 ? '🔮' : '✨'}
+                {/* Image */}
+                <div className="md:w-72 h-48 md:h-auto flex-shrink-0 relative overflow-hidden rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none crystal-image">
+                  <BlogImage src={post.image} fallback={blogEmojis[i] || '✨'} />
                 </div>
 
                 <div className="p-6 flex flex-col justify-center">
@@ -39,8 +62,8 @@ export default function BlogPage() {
                     </span>
                   </div>
 
-                  <h2 className="text-xl md:text-2xl mb-2 transition-colors group-hover:opacity-70" style={{ fontFamily: 'var(--font-heading)' }}>
-                    {post.title}
+                  <h2 className="text-xl md:text-2xl mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <span className="blog-card-title">{post.title}</span>
                   </h2>
 
                   <p className="text-sm mb-4 line-clamp-2" style={{ color: 'var(--earth-light)' }}>

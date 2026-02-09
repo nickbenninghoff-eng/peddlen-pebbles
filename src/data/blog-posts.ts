@@ -19,7 +19,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-02-01',
     author: 'Peddle\'n Pebbles',
     category: 'Crystal Care',
-    image: '/blog/cleansing-crystals.jpg',
+    image: '/blog/cleansing-crystals.png',
     readTime: '4 min read',
   },
   {
@@ -30,7 +30,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-01-20',
     author: 'Peddle\'n Pebbles',
     category: 'Guides',
-    image: '/blog/birthstones.jpg',
+    image: '/blog/birthstones.png',
     readTime: '5 min read',
   },
   {
@@ -41,7 +41,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-01-10',
     author: 'Peddle\'n Pebbles',
     category: 'How-To',
-    image: '/blog/crystal-grids.jpg',
+    image: '/blog/crystal-grids.png',
     readTime: '6 min read',
   },
   {
@@ -52,7 +52,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-01-05',
     author: 'Peddle\'n Pebbles',
     category: 'Guides',
-    image: '/blog/beginner-crystals.jpg',
+    image: '/blog/beginner-crystals.png',
     readTime: '4 min read',
   },
 ];

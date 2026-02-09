@@ -52,9 +52,11 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="py-16 px-6" style={{ background: 'var(--cream-dark)' }}>
-        <div className="max-w-3xl mx-auto">
-          <Link href="/blog" className="inline-flex items-center gap-2 text-sm mb-6 transition-opacity hover:opacity-70"
+      <section className="py-20 md:py-24 px-6 section-parchment page-hero-arch relative overflow-hidden">
+        <div className="deco-gem deco-gem--sm deco-gem--purple" style={{ top: '20%', right: '12%' }} />
+        <div className="deco-gem deco-gem--md deco-gem--amber" style={{ bottom: '30%', left: '10%' }} />
+        <div className="max-w-3xl mx-auto relative">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-sm mb-6 transition-all duration-300 hover:gap-3"
             style={{ color: 'var(--earth-light)', fontFamily: 'var(--font-heading)' }}>
             <ArrowLeft className="w-4 h-4" /> Back to Blog
           </Link>
@@ -64,9 +66,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             {post.category}
           </span>
 
-          <h1 className="text-3xl md:text-4xl mb-4">{post.title}</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl mb-4 stagger-in" style={{ animationDelay: '0.15s' }}>{post.title}</h1>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 stagger-in" style={{ animationDelay: '0.3s' }}>
             <span className="flex items-center gap-1 text-sm" style={{ color: 'var(--earth-light)' }}>
               <Calendar className="w-4 h-4" />
               {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}

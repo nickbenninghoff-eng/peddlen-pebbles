@@ -9,17 +9,24 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="py-16 px-6 text-center" style={{ background: 'var(--cream-dark)' }}>
-        <p className="font-accent text-xl mb-2" style={{ color: 'var(--amber-warm)' }}>Get in touch</p>
-        <h1 className="text-4xl md:text-5xl mb-4">Contact Us</h1>
-        <p style={{ color: 'var(--earth-light)' }}>We&apos;d love to hear from you — questions, custom orders, or just to say hello!</p>
+      <section className="py-20 md:py-24 px-6 text-center section-parchment page-hero-arch relative overflow-hidden">
+        <div className="deco-gem deco-gem--md deco-gem--amber" style={{ top: '25%', left: '10%' }} />
+        <div className="deco-gem deco-gem--sm deco-gem--purple" style={{ bottom: '30%', right: '15%' }} />
+        <div className="deco-gem deco-gem--sm deco-gem--rose" style={{ top: '40%', right: '8%' }} />
+        <div className="absolute bottom-16 left-[6%] text-lg opacity-[0.05] animate-leaf">🌿</div>
+
+        <p className="font-accent text-2xl mb-3 stagger-in" style={{ color: 'var(--amber-warm)', animationDelay: '0.1s' }}>Get in touch</p>
+        <h1 className="text-4xl md:text-6xl mb-4 stagger-in" style={{ animationDelay: '0.2s' }}>Contact Us</h1>
+        <div className="section-ornament"><span className="text-sm" style={{ color: 'var(--amber-warm)' }}>✦</span></div>
+        <p className="text-lg stagger-in" style={{ color: 'var(--earth-light)', animationDelay: '0.4s' }}>We&apos;d love to hear from you — questions, custom orders, or just to say hello!</p>
       </section>
 
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 gap-12">
           {/* Form */}
           <div>
-            <h2 className="text-2xl mb-6">Send Us a Message</h2>
+            <h2 className="text-2xl mb-2">Send Us a Message</h2>
+            <p className="text-sm mb-6" style={{ color: 'var(--earth-light)' }}>We read every message — usually with a cup of tea in hand ☕</p>
             {submitted ? (
               <div className="p-8 rounded-2xl text-center" style={{ background: 'var(--cream-dark)', border: '1px solid var(--stone-light)' }}>
                 <p className="text-4xl mb-4">💎</p>
@@ -78,35 +85,21 @@ export default function ContactPage() {
           <div>
             <h2 className="text-2xl mb-6">Other Ways to Reach Us</h2>
             <div className="space-y-6">
-              <div className="flex gap-4 p-5 rounded-2xl" style={{ background: 'var(--cream-dark)', border: '1px solid var(--stone-light)' }}>
-                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'var(--moss-medium)' }}>
-                  <Mail className="w-5 h-5 text-white" />
+              {[
+                { icon: Mail, title: 'Email', desc: 'hello@peddlenpebbles.com' },
+                { icon: Clock, title: 'Response Time', desc: 'We usually respond within 24 hours' },
+                { icon: MapPin, title: 'Location', desc: 'Shipping from The Shire (Indiana, USA) 🌿' },
+              ].map((item, i) => (
+                <div key={i} className="flex gap-4 p-5 rounded-2xl transition-all duration-300 hover:translate-y-[-3px]" style={{ background: 'var(--cream-dark)', border: '1px solid var(--stone-light)', boxShadow: 'var(--shadow-warm)' }}>
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, var(--moss-medium) 0%, var(--moss-dark) 100%)', boxShadow: '0 3px 10px rgba(45,74,46,0.25)' }}>
+                    <item.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm mb-1" style={{ fontFamily: 'var(--font-heading)' }}>{item.title}</h3>
+                    <p className="text-sm" style={{ color: 'var(--earth-light)' }}>{item.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm mb-1" style={{ fontFamily: 'var(--font-heading)' }}>Email</h3>
-                  <p className="text-sm" style={{ color: 'var(--earth-light)' }}>hello@peddlenpebbles.com</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 p-5 rounded-2xl" style={{ background: 'var(--cream-dark)', border: '1px solid var(--stone-light)' }}>
-                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'var(--moss-medium)' }}>
-                  <Clock className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-sm mb-1" style={{ fontFamily: 'var(--font-heading)' }}>Response Time</h3>
-                  <p className="text-sm" style={{ color: 'var(--earth-light)' }}>We usually respond within 24 hours</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 p-5 rounded-2xl" style={{ background: 'var(--cream-dark)', border: '1px solid var(--stone-light)' }}>
-                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'var(--moss-medium)' }}>
-                  <MapPin className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-sm mb-1" style={{ fontFamily: 'var(--font-heading)' }}>Location</h3>
-                  <p className="text-sm" style={{ color: 'var(--earth-light)' }}>Shipping from The Shire (Indiana, USA)</p>
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Social */}

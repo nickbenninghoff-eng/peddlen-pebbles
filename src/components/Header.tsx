@@ -27,10 +27,11 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        background: scrolled ? 'rgba(250, 245, 238, 0.95)' : 'rgba(250, 245, 238, 0.6)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: scrolled ? '1px solid var(--stone-light)' : '1px solid transparent',
-        boxShadow: scrolled ? 'var(--shadow-warm)' : 'none',
+        background: scrolled ? 'rgba(250, 245, 238, 0.96)' : 'rgba(250, 245, 238, 0.5)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderBottom: scrolled ? '2px solid var(--stone-light)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 4px 20px rgba(61,43,31,0.08), 0 1px 3px rgba(61,43,31,0.04)' : 'none',
       }}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-20">
         {/* Logo */}
@@ -86,16 +87,20 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — parchment feel */}
       {mobileOpen && (
-        <div className="md:hidden" style={{ background: 'var(--cream)', borderTop: '1px solid var(--stone-light)' }}>
+        <div className="md:hidden wood-grain" style={{
+          background: 'linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%)',
+          borderTop: '2px solid var(--stone-light)',
+          boxShadow: 'inset 0 2px 8px rgba(61,43,31,0.04)',
+        }}>
           <nav className="flex flex-col px-6 py-4 gap-1">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="py-3.5 transition-colors hover:pl-2"
+                className="py-3.5 transition-all duration-300 hover:pl-3 hover:opacity-80"
                 style={{ fontFamily: 'var(--font-heading)', color: 'var(--earth-dark)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', borderBottom: '1px solid var(--stone-light)' }}
               >
                 {link.label}

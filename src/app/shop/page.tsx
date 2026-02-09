@@ -46,10 +46,18 @@ function ShopContent() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="py-16 px-6 text-center" style={{ background: 'var(--cream-dark)' }}>
-        <p className="font-accent text-xl mb-2" style={{ color: 'var(--amber-warm)' }}>Browse our collection</p>
-        <h1 className="text-4xl md:text-5xl mb-4">The Shop</h1>
-        <p style={{ color: 'var(--earth-light)' }}>Every stone has been hand-selected with care and intention</p>
+      <section className="py-20 md:py-24 px-6 text-center section-parchment page-hero-arch relative overflow-hidden">
+        {/* Scattered crystal gems */}
+        <div className="deco-gem deco-gem--md deco-gem--purple" style={{ top: '20%', left: '12%' }} />
+        <div className="deco-gem deco-gem--sm deco-gem--amber" style={{ bottom: '28%', right: '18%' }} />
+        <div className="deco-gem deco-gem--sm deco-gem--blue" style={{ top: '40%', left: '6%' }} />
+        <div className="deco-gem deco-gem--lg deco-gem--rose" style={{ top: '30%', right: '8%' }} />
+        <div className="absolute top-10 right-[12%] text-xl opacity-[0.05] animate-leaf">🌿</div>
+
+        <p className="font-accent text-2xl mb-3 stagger-in" style={{ color: 'var(--amber-warm)', animationDelay: '0.1s' }}>Browse our collection</p>
+        <h1 className="text-4xl md:text-6xl mb-4 stagger-in" style={{ animationDelay: '0.2s' }}>The Shop</h1>
+        <div className="section-ornament"><span className="text-sm" style={{ color: 'var(--amber-warm)' }}>✦</span></div>
+        <p className="text-lg stagger-in" style={{ color: 'var(--earth-light)', animationDelay: '0.4s' }}>Every stone has been hand-selected with care and intention</p>
       </section>
 
       <div className="max-w-7xl mx-auto px-6 py-12">
@@ -106,7 +114,8 @@ function ShopContent() {
 
         <div className="flex gap-8">
           {/* Sidebar Categories */}
-          <aside className={`${showFilters ? 'block' : 'hidden'} md:block w-full md:w-56 flex-shrink-0`}>
+          <aside className={`${showFilters ? 'block' : 'hidden'} md:block w-full md:w-60 flex-shrink-0`}>
+            <div className="sidebar-wooden">
             <h3 className="text-sm uppercase tracking-widest mb-4" style={{ fontFamily: 'var(--font-heading)', color: 'var(--earth-dark)' }}>
               Categories
             </h3>
@@ -128,11 +137,12 @@ function ShopContent() {
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
-                    className={`text-left px-4 py-2.5 rounded-xl text-sm transition-colors ${selectedCategory === cat.id ? 'font-semibold' : ''}`}
+                    className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-300 ${selectedCategory === cat.id ? 'font-semibold' : 'hover:pl-5 hover:bg-[var(--cream-dark)]'}`}
                     style={{
                       background: selectedCategory === cat.id ? 'var(--moss-medium)' : 'transparent',
                       color: selectedCategory === cat.id ? 'white' : 'var(--earth-medium)',
                       fontFamily: 'var(--font-body)',
+                      boxShadow: selectedCategory === cat.id ? '0 2px 8px rgba(45,74,46,0.25)' : 'none',
                     }}
                   >
                     {cat.emoji} {cat.name} ({count})
@@ -140,6 +150,7 @@ function ShopContent() {
                 );
               })}
             </nav>
+            </div>
           </aside>
 
           {/* Products Grid */}
