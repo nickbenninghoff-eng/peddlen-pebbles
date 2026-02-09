@@ -23,7 +23,7 @@ const testimonials = [
 
 /* Reusable wave divider — each variant has a unique shape */
 function WaveDivider({ fill, variant = 1, flip = false }: { fill: string; variant?: number; flip?: boolean }) {
-  const waves: Record<number, JSX.Element> = {
+  const waves: Record<number, React.ReactNode> = {
     1: (
       <>
         <path d="M0 100V65C160 30 320 50 480 45C640 40 800 25 960 35C1120 45 1280 30 1380 38L1440 42V100H0Z" fill={fill} opacity="0.3" />
