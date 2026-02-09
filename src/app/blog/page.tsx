@@ -1,10 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
-import { blogPosts } from '@/data/blog-posts';
+
+interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  image: string;
+  readTime: string;
+}
 
 function BlogImage({ src, fallback }: { src: string; fallback: string }) {
   const [error, setError] = useState(false);
@@ -19,7 +28,28 @@ function BlogImage({ src, fallback }: { src: string; fallback: string }) {
 }
 
 export default function BlogPage() {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const blogEmojis = ['🌙', '💎', '🔮', '✨'];
+
+  useEffect(() => {
+    fetch('/api/blog').then(r => r.json()).then(posts => {
+      setBlogPosts(posts);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-5xl mb-4 animate-pulse">📖</p>
+          <p style={{ color: 'var(--earth-light)', fontFamily: 'var(--font-heading)' }}>Loading posts...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -39,9 +69,8 @@ export default function BlogPage() {
         <div className="space-y-8">
           {blogPosts.map((post, i) => (
             <Link key={post.slug} href={`/blog/${post.slug}`}
-              className={`block card-parchment group ${i === 0 ? '' : ''}`}>
+              className="block card-parchment group">
               <div className="flex flex-col md:flex-row">
-                {/* Image */}
                 <div className="md:w-72 h-48 md:h-auto flex-shrink-0 relative overflow-hidden rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none crystal-image">
                   <BlogImage src={post.image} fallback={blogEmojis[i] || '✨'} />
                 </div>

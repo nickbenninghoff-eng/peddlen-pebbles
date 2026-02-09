@@ -1,25 +1,68 @@
+'use client';
+
+import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, Share2 } from 'lucide-react';
-import { blogPosts } from '@/data/blog-posts';
-import { notFound } from 'next/navigation';
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  author: string;
+  category: string;
+  image: string;
+  readTime: string;
 }
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
+export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [related, setRelated] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-export default async function BlogPostPage({ params }: PageProps) {
-  const { slug } = await params;
-  const post = blogPosts.find(p => p.slug === slug);
+  useEffect(() => {
+    Promise.all([
+      fetch(`/api/blog/${slug}`).then(r => {
+        if (!r.ok) { setNotFound(true); return null; }
+        return r.json();
+      }),
+      fetch('/api/blog').then(r => r.json()),
+    ]).then(([postData, allPosts]) => {
+      if (postData) {
+        setPost(postData);
+        setRelated(allPosts.filter((p: BlogPost) => p.slug !== slug).slice(0, 2));
+      }
+      setLoading(false);
+    });
+  }, [slug]);
 
-  if (!post) notFound();
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-5xl mb-4 animate-pulse">📖</p>
+          <p style={{ color: 'var(--earth-light)', fontFamily: 'var(--font-heading)' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const related = blogPosts.filter(p => p.slug !== slug).slice(0, 2);
+  if (notFound || !post) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-center">
+        <div>
+          <p className="text-5xl mb-4">📖</p>
+          <h1 className="text-2xl mb-2" style={{ fontFamily: 'var(--font-heading)' }}>Post Not Found</h1>
+          <p className="mb-6" style={{ color: 'var(--earth-light)' }}>This story has been lost to time...</p>
+          <Link href="/blog" className="btn-stone">Back to Blog</Link>
+        </div>
+      </div>
+    );
+  }
 
-  // Simple markdown-like rendering
   const renderContent = (content: string) => {
     return content.split('\n\n').map((block, i) => {
       if (block.startsWith('## ')) {
@@ -38,7 +81,6 @@ export default async function BlogPostPage({ params }: PageProps) {
           </ul>
         );
       }
-      // Check for bold text
       const parts = block.split(/(\*\*[^*]+\*\*)/);
       return (
         <p key={i} className="text-base leading-relaxed my-4" style={{ color: 'var(--earth-medium)' }}>
@@ -89,7 +131,6 @@ export default async function BlogPostPage({ params }: PageProps) {
       <article className="max-w-3xl mx-auto px-6 py-12">
         {renderContent(post.content)}
 
-        {/* Share */}
         <div className="mt-12 pt-8" style={{ borderTop: '1px solid var(--stone-light)' }}>
           <div className="flex items-center gap-4">
             <Share2 className="w-4 h-4" style={{ color: 'var(--earth-light)' }} />

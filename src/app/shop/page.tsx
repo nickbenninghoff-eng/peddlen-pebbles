@@ -1,11 +1,19 @@
 'use client';
 
-import { useState, useMemo, Suspense } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
-import { products } from '@/data/products';
-import { categories } from '@/data/categories';
+import type { Product } from '@/types/product';
+import { normalizeProduct } from '@/types/product';
+
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  emoji: string;
+  _count?: { products: number };
+}
 
 type SortOption = 'name' | 'price-low' | 'price-high' | 'featured';
 
@@ -13,10 +21,24 @@ function ShopContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category') || 'all';
 
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    Promise.all([
+      fetch('/api/products').then(r => r.json()),
+      fetch('/api/categories').then(r => r.json()),
+    ]).then(([prods, cats]) => {
+      setProducts(prods.map(normalizeProduct));
+      setCategories(cats);
+      setLoading(false);
+    });
+  }, []);
 
   const filtered = useMemo(() => {
     let result = [...products];
@@ -41,13 +63,23 @@ function ShopContent() {
     }
 
     return result;
-  }, [selectedCategory, searchQuery, sortBy]);
+  }, [products, selectedCategory, searchQuery, sortBy]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-5xl mb-4 animate-pulse">💎</p>
+          <p style={{ color: 'var(--earth-light)', fontFamily: 'var(--font-heading)' }}>Loading treasures...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
       {/* Header */}
       <section className="py-20 md:py-24 px-6 text-center section-parchment page-hero-arch relative overflow-hidden">
-        {/* Scattered crystal gems */}
         <div className="deco-gem deco-gem--md deco-gem--purple" style={{ top: '20%', left: '12%' }} />
         <div className="deco-gem deco-gem--sm deco-gem--amber" style={{ bottom: '28%', right: '18%' }} />
         <div className="deco-gem deco-gem--sm deco-gem--blue" style={{ top: '40%', left: '6%' }} />
@@ -132,7 +164,7 @@ function ShopContent() {
                 All Treasures ({products.length})
               </button>
               {categories.map((cat) => {
-                const count = products.filter(p => p.category === cat.id).length;
+                const count = cat._count?.products ?? products.filter(p => p.category === cat.id).length;
                 return (
                   <button
                     key={cat.id}

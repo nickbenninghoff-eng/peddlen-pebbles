@@ -1,19 +1,50 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ShoppingBag, Star, Truck, Shield, RotateCcw } from 'lucide-react';
-import { products } from '@/data/products';
+import type { Product } from '@/types/product';
+import { normalizeProduct } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/ProductCard';
 
 export default function ProductDetail({ id }: { id: string }) {
   const { addItem } = useCart();
   const [imgError, setImgError] = useState(false);
-  const product = products.find(p => p.id === id);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [related, setRelated] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!product) {
+  useEffect(() => {
+    fetch(`/api/products/${id}`)
+      .then(r => {
+        if (!r.ok) { setNotFound(true); setLoading(false); return null; }
+        return r.json();
+      })
+      .then(data => {
+        if (!data) return;
+        const relatedRaw = data.related || [];
+        delete data.related;
+        setProduct(normalizeProduct(data));
+        setRelated(relatedRaw.map(normalizeProduct));
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-5xl mb-4 animate-pulse">💎</p>
+          <p style={{ color: 'var(--earth-light)', fontFamily: 'var(--font-heading)' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (notFound || !product) {
     return (
       <div className="min-h-screen flex items-center justify-center text-center">
         <div>
@@ -25,8 +56,6 @@ export default function ProductDetail({ id }: { id: string }) {
       </div>
     );
   }
-
-  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
 
   const categoryEmoji: Record<string, string> = {
     crystals: '💎', geodes: '🪨', 'polished-stones': '✨',
@@ -45,15 +74,13 @@ export default function ProductDetail({ id }: { id: string }) {
 
       {/* Product */}
       <div className="max-w-7xl mx-auto px-6 pb-20 relative">
-        {/* Subtle ambient gem dots */}
         <div className="deco-gem deco-gem--sm deco-gem--purple" style={{ top: '5%', right: '3%' }} />
         <div className="deco-gem deco-gem--md deco-gem--amber" style={{ top: '40%', right: '0%' }} />
         <div className="deco-gem deco-gem--sm deco-gem--blue" style={{ bottom: '15%', left: '2%' }} />
 
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
-          {/* Image — hobbit round door frame */}
-          <div className="aspect-square round-door-frame relative"
-            style={{ boxShadow: 'var(--shadow-warm-xl)' }}>
+          {/* Image */}
+          <div className="aspect-square round-door-frame relative" style={{ boxShadow: 'var(--shadow-warm-xl)' }}>
             {product.image && !imgError ? (
               <Image
                 src={product.image}

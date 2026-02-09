@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
-import type { Product } from '@/data/products';
+import type { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 
 export default function ProductCard({ product }: { product: Product }) {

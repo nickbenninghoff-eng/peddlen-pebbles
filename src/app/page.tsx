@@ -1,10 +1,16 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Heart, Shield, Truck, Star } from 'lucide-react';
-import { categories } from '@/data/categories';
+
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  emoji: string;
+}
 
 const categoryImages: Record<string, string> = {
   crystals: '/decor/cat-crystals.png',
@@ -58,6 +64,12 @@ function WaveDivider({ fill, variant = 1, flip = false }: { fill: string; varian
 }
 
 export default function Home() {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    fetch('/api/categories').then(r => r.json()).then(setCategories);
+  }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
