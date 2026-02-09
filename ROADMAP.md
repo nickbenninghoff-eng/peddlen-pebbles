@@ -46,11 +46,11 @@
 - [x] Migrate frontend pages from static mock data to API fetches `p:medium`
 - [x] Remove static export, switch to server-rendered `p:medium`
 
-## Phase 5: Shopping Cart & Checkout 🚧
-- [ ] Persist cart server-side (or localStorage with sync) `p:high`
-- [ ] Stripe Checkout integration (redirect to Stripe hosted checkout) `p:high`
-- [ ] Order confirmation page `p:high`
-- [ ] Order stored in database after successful payment `p:high`
+## Phase 5: Shopping Cart & Checkout ✅
+- [x] Cart syncs to checkout via API (sends cart items + customer info to server) `p:high`
+- [x] Stripe Checkout integration (Stripe hosted checkout via CheckoutSessions API) `p:high`
+- [x] Order confirmation page (`/order/success?session_id=...`) `p:high`
+- [x] Order stored in database after successful payment (webhook `checkout.session.completed`) `p:high`
 - [ ] Email confirmation on order (Resend) `p:medium`
 
 ## Phase 6: Admin Panel

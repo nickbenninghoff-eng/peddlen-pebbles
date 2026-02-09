@@ -1,10 +1,43 @@
 'use client';
 
-import { X, Plus, Minus, ShoppingBag, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { X, Plus, Minus, ShoppingBag, Trash2, Loader2 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 export default function CartDrawer() {
   const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice, cartOpen, setCartOpen } = useCart();
+  const [checkoutMode, setCheckoutMode] = useState(false);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleCheckout = async () => {
+    if (!email || !name) { setError('Please fill in your name and email'); return; }
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map(i => ({ productId: i.product.id, quantity: i.quantity })),
+          email,
+          name,
+        }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setError(data.error || 'Checkout failed');
+      }
+    } catch {
+      setError('Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!cartOpen) return null;
 
@@ -91,10 +124,38 @@ export default function CartDrawer() {
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
-            <button className="btn-stone w-full justify-center text-base">
-              Proceed to Checkout
-            </button>
-            <p className="text-xs text-center mt-3 opacity-40">Shipping calculated at checkout</p>
+            {!checkoutMode ? (
+              <>
+                <button onClick={() => setCheckoutMode(true)} className="btn-stone w-full justify-center text-base">
+                  Proceed to Checkout
+                </button>
+                <p className="text-xs text-center mt-3 opacity-40">Shipping calculated at checkout</p>
+              </>
+            ) : (
+              <div className="space-y-3">
+                <input
+                  type="text" placeholder="Your name" value={name}
+                  onChange={e => setName(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border text-sm"
+                  style={{ borderColor: 'var(--stone-light)', background: 'white' }}
+                />
+                <input
+                  type="email" placeholder="Email address" value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border text-sm"
+                  style={{ borderColor: 'var(--stone-light)', background: 'white' }}
+                />
+                {error && <p className="text-xs text-red-600">{error}</p>}
+                <button onClick={handleCheckout} disabled={loading}
+                  className="btn-stone w-full justify-center text-base flex items-center gap-2">
+                  {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : 'Pay with Stripe'}
+                </button>
+                <button onClick={() => setCheckoutMode(false)}
+                  className="text-xs w-full text-center opacity-50 hover:opacity-80 transition">
+                  ← Back to cart
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
