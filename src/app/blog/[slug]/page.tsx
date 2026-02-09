@@ -3,6 +3,10 @@ import { ArrowLeft, Calendar, Clock, Share2 } from 'lucide-react';
 import { blogPosts } from '@/data/blog-posts';
 import { notFound } from 'next/navigation';
 
+export function generateStaticParams() {
+  return blogPosts.map((post) => ({ slug: post.slug }));
+}
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
