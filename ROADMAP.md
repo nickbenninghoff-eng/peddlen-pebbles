@@ -53,14 +53,14 @@
 - [x] Order stored in database after successful payment (webhook `checkout.session.completed`) `p:high`
 - [ ] Email confirmation on order (Resend) `p:medium`
 
-## Phase 6: Admin Panel
-- [ ] Admin login (protected routes) `p:high`
-- [ ] Product management — CRUD (add, edit, delete, toggle in-stock/out-of-stock) `p:high`
-- [ ] Image upload for products (ImgBB API) `p:medium`
-- [ ] Category management `p:medium`
-- [ ] Order viewing (list orders, status updates) `p:medium`
-- [ ] Blog post management — CRUD with rich text editor `p:medium`
-- [ ] Dashboard with basic stats (total products, orders, revenue) `p:low`
+## Phase 6: Admin Panel ✅
+- [x] Admin login (protected routes) `p:high`
+- [x] Product management — CRUD (add, edit, delete, toggle in-stock/out-of-stock) `p:high`
+- [x] Image upload for products (ImgBB API) `p:medium`
+- [x] Category management `p:medium`
+- [x] Order viewing (list orders, status updates) `p:medium`
+- [x] Blog post management — CRUD with rich text editor `p:medium`
+- [x] Dashboard with basic stats (total products, orders, revenue) `p:low`
 
 ## Phase 7: Blog & Social Integration
 - [ ] Dynamic blog from database (replace static mock data) `p:medium`
